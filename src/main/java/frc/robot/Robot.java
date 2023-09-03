@@ -1,9 +1,12 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.ADXL345_SPI.Axes;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,6 +21,7 @@ public class Robot extends TimedRobot {
   private VictorSP rightMotor2 = new VictorSP(3);
   Encoder encoderL = new Encoder(0, 1);
   Encoder encoderR = new Encoder(2, 3 );
+  AHRS gyro = new AHRS(SPI.Port.kMXP);
   
   private Joystick joy1 = new Joystick(0);
 
@@ -28,6 +32,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
+    gyro.getAngle();
+    Shuffleboard.getTab("Example tab").add(gyro);
     encoderL.setDistancePerPulse(1./256.);
     encoderR.setDistancePerPulse(1./256.);
   }
