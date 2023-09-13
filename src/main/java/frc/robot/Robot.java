@@ -15,13 +15,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends TimedRobot {
 
 
-  private VictorSP leftMotor1 = new VictorSP(0 );
-  private VictorSP leftMotor2 = new VictorSP(1);
-  private VictorSP rightMotor1 = new VictorSP(2);
-  private VictorSP rightMotor2 = new VictorSP(3);
+  private VictorSP leftMotor = new VictorSP(0 );
+  private VictorSP rightMotor = new VictorSP(1);
   Encoder encoderL = new Encoder(0, 1);
   Encoder encoderR = new Encoder(2, 3 );
-  AHRS gyro = new AHRS(SPI.Port.kMXP);
+  
   
   private Joystick joy1 = new Joystick(0);
 
@@ -32,8 +30,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    gyro.getAngle();
-    Shuffleboard.getTab("Example tab").add(gyro);
     encoderL.setDistancePerPulse(1./256.);
     encoderR.setDistancePerPulse(1./256.);
   }
@@ -52,15 +48,11 @@ public class Robot extends TimedRobot {
     encoderL.getDistance();
 
     if (time - startTime < 3) {
-      leftMotor1.set(0.6);
-      leftMotor2.set(0.6);
-      rightMotor1.set(-0.6);
-      rightMotor2.set(-0.6);
+      leftMotor.set(0.6);
+      rightMotor.set(-0.6);
     } else {
-      leftMotor1.set(0);
-      leftMotor2.set(0);
-      rightMotor1.set(0);
-      rightMotor2.set(0);
+      leftMotor.set(0);
+      rightMotor.set(0);
 
       SmartDashboard.putNumber("Left Drive Encoder", encoderL.getDistance());
       SmartDashboard.putNumber("Right Drive Encoder", encoderR.getDistance());
@@ -79,10 +71,8 @@ public class Robot extends TimedRobot {
     double left = speed + turn;
     double right = speed - turn;
 
-    leftMotor1.set(left);
-    leftMotor2.set(left);
-    rightMotor1.set(-right);
-    rightMotor2.set(-right);
+    leftMotor.set(left);
+    rightMotor.set(-right);
   }
 
 
